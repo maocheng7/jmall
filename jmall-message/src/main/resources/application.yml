@@ -1,0 +1,49 @@
+# ========== 消息服务 application 配置 ==========
+server:
+  port: 8112
+
+spring:
+  application:
+    name: jmall-message
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://${MYSQL_HOST:127.0.0.1}:${MYSQL_PORT:3306}/${MYSQL_DB:jmall_message}?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
+    username: ${MYSQL_USER:root}
+    password: ${MYSQL_PASSWORD:root}
+    type: com.alibaba.druid.pool.DruidDataSource
+    druid:
+      initial-size: 5
+      min-idle: 5
+      max-active: 20
+      max-wait: 60000
+      validation-query: SELECT 1
+      test-while-idle: true
+  data:
+    redis:
+      host: ${REDIS_HOST:127.0.0.1}
+      port: ${REDIS_PORT:6379}
+      password: ${REDIS_PASSWORD:}
+      database: 0
+      timeout: 5000ms
+
+# RocketMQ 配置
+rocketmq:
+  name-server: ${ROCKETMQ_ADDR:127.0.0.1:9876}
+  producer:
+    group: jmall-message-producer
+
+# 短信配置（开发环境默认关闭真实发送）
+jmall:
+  sms:
+    enabled: false
+    provider: mock
+
+springdoc:
+  info:
+    title: J-Mall 消息服务 API
+    description: 短信/站内信/推送接口
+    version: 1.0.0
+
+logging:
+  level:
+    com.jmall: info

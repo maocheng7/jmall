@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.jmall</groupId>
+        <artifactId>jmall</artifactId>
+        <version>1.0.0</version>
+    </parent>
+
+    <artifactId>jmall-message</artifactId>
+    <name>jmall-message</name>
+    <description>J-Mall 消息服务 - 短信/站内信/APP推送通知</description>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.jmall</groupId>
+            <artifactId>jmall-common-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.jmall</groupId>
+            <artifactId>jmall-common-mybatis</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.jmall</groupId>
+            <artifactId>jmall-common-redis</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.jmall</groupId>
+            <artifactId>jmall-common-mq</artifactId>
+        </dependency>
+        <!-- 消息共享 API -->
+        <dependency>
+            <groupId>com.jmall</groupId>
+            <artifactId>jmall-api-message</artifactId>
+        </dependency>
+        <!-- 公共安全模块 -->
+        <dependency>
+            <groupId>com.jmall</groupId>
+            <artifactId>jmall-common-security</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-bootstrap</artifactId>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+</project>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.jmall</groupId>
+        <artifactId>jmall-common</artifactId>
+        <version>1.0.0</version>
+    </parent>
+
+    <artifactId>jmall-common-es</artifactId>
+    <name>jmall-common-es</name>
+    <description>Elasticsearch公共模块 - ES客户端配置/索引工具/BaseEsEntity</description>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.jmall</groupId>
+            <artifactId>jmall-common-core</artifactId>
+        </dependency>
+        <!-- Elasticsearch Java Client -->
+        <dependency>
+            <groupId>co.elastic.clients</groupId>
+            <artifactId>elasticsearch-java</artifactId>
+        </dependency>
+        <!-- Spring Data Elasticsearch（提供配置基础） -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-elasticsearch</artifactId>
+        </dependency>
+        <!-- Jackson（ES JSON 序列化） -->
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+        </dependency>
+    </dependencies>
+</project>

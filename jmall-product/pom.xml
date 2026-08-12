@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.jmall</groupId>
+        <artifactId>jmall</artifactId>
+        <version>1.0.0</version>
+    </parent>
+
+    <artifactId>jmall-product</artifactId>
+    <name>jmall-product</name>
+    <description>J-Mall 商品服务 - 商品CRUD/分类/规格/SKU/ES同步</description>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.jmall</groupId>
+            <artifactId>jmall-common-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.jmall</groupId>
+            <artifactId>jmall-common-mybatis</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.jmall</groupId>
+            <artifactId>jmall-common-redis</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.jmall</groupId>
+            <artifactId>jmall-common-es</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.jmall</groupId>
+            <artifactId>jmall-common-mq</artifactId>
+        </dependency>
+        <!-- 公共安全模块（UserContextHolder，可选） -->
+        <dependency>
+            <groupId>com.jmall</groupId>
+            <artifactId>jmall-common-security</artifactId>
+        </dependency>
+        <!-- 商品共享 API（SkuDTO） -->
+        <dependency>
+            <groupId>com.jmall</groupId>
+            <artifactId>jmall-api-product</artifactId>
+        </dependency>
+        <!-- 商家服务API（查店铺信息） -->
+        <dependency>
+            <groupId>com.jmall</groupId>
+            <artifactId>jmall-api-merchant</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-openfeign</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-loadbalancer</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-bootstrap</artifactId>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+</project>

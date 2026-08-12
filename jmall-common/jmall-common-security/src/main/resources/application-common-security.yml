@@ -1,0 +1,22 @@
+# jmall-common-security 模块默认配置
+sa-token:
+  # Token 名称（请求头/参数名）
+  token-name: Authorization
+  # Token 前缀
+  token-prefix: Bearer
+  # Token 有效期（秒），7天
+  timeout: 604800
+  # Token 临时有效期（秒）（指定时间内无操作则过期）
+  active-timeout: 1800
+  # 是否允许同一账号并发登录
+  is-concurrent: true
+  # 多人登录时是否共用一个 Token
+  is-share: false
+  # Token 风格（uuid）
+  token-style: uuid
+  # 是否输出操作日志
+  is-log: false
+  # 是否从请求体中读取 Token
+  is-read-body: false
+  # 是否从 Header 中读取 Token
+  is-read-header: true

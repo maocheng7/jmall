@@ -1,0 +1,37 @@
+# ========== J-Mall 全局共享配置（dataId: jmall-common.yml，需导入 Nacos） ==========
+# 所有服务通过 bootstrap.yml 的 shared-configs 自动加载此配置
+
+# SpringDoc 全局文档配置
+springdoc:
+  api-docs:
+    enabled: true
+    path: /v3/api-docs
+  swagger-ui:
+    enabled: true
+    path: /swagger-ui.html
+    tags-sorter: alpha
+    operations-sorter: alpha
+
+# MyBatis-Plus 全局配置
+mybatis-plus:
+  mapper-locations: classpath*:mapper/**/*.xml
+  configuration:
+    map-underscore-to-camel-case: true
+    cache-enabled: false
+  global-config:
+    banner: false
+    db-config:
+      id-type: assign_id
+      logic-delete-field: deleted
+      logic-delete-value: 1
+      logic-not-delete-value: 0
+
+# Sentinel 限流（各服务可按需覆盖）
+sentinel:
+  eager: true
+
+# 日志
+logging:
+  level:
+    com.jmall: info
+    com.alibaba.nacos: warn

@@ -1,0 +1,29 @@
+# ========== 认证服务 bootstrap 配置（Nacos 连接信息） ==========
+spring:
+  application:
+    name: jmall-auth
+  cloud:
+    nacos:
+      # Nacos 注册中心
+      discovery:
+        server-addr: ${NACOS_ADDR:127.0.0.1:8848}
+        namespace: ${NACOS_NAMESPACE:}
+        group: DEFAULT_GROUP
+        username: ${NACOS_USERNAME:nacos}
+        password: ${NACOS_PASSWORD:nacos}
+      # Nacos 配置中心
+      config:
+        server-addr: ${NACOS_ADDR:127.0.0.1:8848}
+        namespace: ${NACOS_NAMESPACE:}
+        group: DEFAULT_GROUP
+        username: ${NACOS_USERNAME:nacos}
+        password: ${NACOS_PASSWORD:nacos}
+        file-extension: yml
+        # 共享配置
+        shared-configs:
+          - data-id: jmall-common.yml
+            group: DEFAULT_GROUP
+            refresh: true
+          - data-id: jmall-auth.yml
+            group: DEFAULT_GROUP
+            refresh: true

@@ -1,0 +1,32 @@
+# ========== 网关服务 bootstrap 配置（Nacos 连接信息） ==========
+spring:
+  application:
+    name: jmall-gateway
+  cloud:
+    nacos:
+      # Nacos 注册中心
+      discovery:
+        server-addr: ${NACOS_ADDR:127.0.0.1:8848}
+        namespace: ${NACOS_NAMESPACE:}
+        group: DEFAULT_GROUP
+        username: ${NACOS_USERNAME:nacos}
+        password: ${NACOS_PASSWORD:nacos}
+      # Nacos 配置中心
+      config:
+        server-addr: ${NACOS_ADDR:127.0.0.1:8848}
+        namespace: ${NACOS_NAMESPACE:}
+        group: DEFAULT_GROUP
+        username: ${NACOS_USERNAME:nacos}
+        password: ${NACOS_PASSWORD:nacos}
+        # 配置文件加载（默认加载 jmall-gateway.yml 和 application.yml）
+        file-extension: yml
+        # 共享配置
+        shared-configs:
+          - data-id: jmall-common.yml
+            group: DEFAULT_GROUP
+            refresh: true
+
+# Nacos 配置中心启动时优先加载
+logging:
+  level:
+    com.jmall: info

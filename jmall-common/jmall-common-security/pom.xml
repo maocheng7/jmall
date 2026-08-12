@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.jmall</groupId>
+        <artifactId>jmall-common</artifactId>
+        <version>1.0.0</version>
+    </parent>
+
+    <artifactId>jmall-common-security</artifactId>
+    <name>jmall-common-security</name>
+    <description>安全公共模块 - Sa-Token配置/网关鉴权过滤器/用户上下文</description>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.jmall</groupId>
+            <artifactId>jmall-common-core</artifactId>
+        </dependency>
+        <!-- Sa-Token Reactor（网关响应式） -->
+        <dependency>
+            <groupId>cn.dev33</groupId>
+            <artifactId>sa-token-reactor-spring-boot3-starter</artifactId>
+        </dependency>
+        <!-- Sa-Token Redis（会话存储） -->
+        <dependency>
+            <groupId>cn.dev33</groupId>
+            <artifactId>sa-token-redis-jackson</artifactId>
+        </dependency>
+        <!-- Spring Cloud Gateway（响应式Web） -->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-gateway</artifactId>
+        </dependency>
+        <!-- Spring Data Redis（Sa-Token Redis依赖） -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-redis</artifactId>
+        </dependency>
+        <!-- OpenFeign（用于Feign拦截器传递Token） -->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-openfeign</artifactId>
+        </dependency>
+    </dependencies>
+</project>

@@ -1,0 +1,26 @@
+# ========== 优惠服务 bootstrap 配置（Nacos 连接信息） ==========
+spring:
+  application:
+    name: jmall-coupon
+  cloud:
+    nacos:
+      discovery:
+        server-addr: ${NACOS_ADDR:127.0.0.1:8848}
+        namespace: ${NACOS_NAMESPACE:}
+        group: DEFAULT_GROUP
+        username: ${NACOS_USERNAME:nacos}
+        password: ${NACOS_PASSWORD:nacos}
+      config:
+        server-addr: ${NACOS_ADDR:127.0.0.1:8848}
+        namespace: ${NACOS_NAMESPACE:}
+        group: DEFAULT_GROUP
+        username: ${NACOS_USERNAME:nacos}
+        password: ${NACOS_PASSWORD:nacos}
+        file-extension: yml
+        shared-configs:
+          - data-id: jmall-common.yml
+            group: DEFAULT_GROUP
+            refresh: true
+          - data-id: jmall-coupon.yml
+            group: DEFAULT_GROUP
+            refresh: true

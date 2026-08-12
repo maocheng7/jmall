@@ -1,0 +1,130 @@
+# ========== 网关服务 application 配置 ==========
+server:
+  port: 8080
+
+spring:
+  main:
+    # WebFlux 环境（网关基于响应式）
+    web-application-type: reactive
+  cloud:
+    gateway:
+      # 路由配置
+      routes:
+        # 认证服务
+        - id: jmall-auth
+          uri: lb://jmall-auth
+          predicates:
+            - Path=/auth/**
+          filters:
+            - StripPrefix=0
+        # 用户服务
+        - id: jmall-user
+          uri: lb://jmall-user
+          predicates:
+            - Path=/api/user/**
+          filters:
+            - StripPrefix=1
+        # 商品服务
+        - id: jmall-product
+          uri: lb://jmall-product
+          predicates:
+            - Path=/api/product/**
+          filters:
+            - StripPrefix=1
+        # 搜索服务
+        - id: jmall-search
+          uri: lb://jmall-search
+          predicates:
+            - Path=/api/search/**
+          filters:
+            - StripPrefix=1
+        # 购物车服务
+        - id: jmall-cart
+          uri: lb://jmall-cart
+          predicates:
+            - Path=/api/cart/**
+          filters:
+            - StripPrefix=1
+        # 订单服务
+        - id: jmall-order
+          uri: lb://jmall-order
+          predicates:
+            - Path=/api/order/**
+          filters:
+            - StripPrefix=1
+        # 支付服务
+        - id: jmall-pay
+          uri: lb://jmall-pay
+          predicates:
+            - Path=/api/pay/**
+          filters:
+            - StripPrefix=1
+        # 库存服务
+        - id: jmall-stock
+          uri: lb://jmall-stock
+          predicates:
+            - Path=/api/stock/**
+          filters:
+            - StripPrefix=1
+        # 优惠服务
+        - id: jmall-coupon
+          uri: lb://jmall-coupon
+          predicates:
+            - Path=/api/coupon/**
+          filters:
+            - StripPrefix=1
+        # 商家服务
+        - id: jmall-merchant
+          uri: lb://jmall-merchant
+          predicates:
+            - Path=/api/merchant/**
+          filters:
+            - StripPrefix=1
+        # 平台管理服务
+        - id: jmall-admin
+          uri: lb://jmall-admin
+          predicates:
+            - Path=/api/admin/**
+          filters:
+            - StripPrefix=1
+        # 消息服务
+        - id: jmall-message
+          uri: lb://jmall-message
+          predicates:
+            - Path=/api/message/**
+          filters:
+            - StripPrefix=1
+        # 物流服务
+        - id: jmall-logistics
+          uri: lb://jmall-logistics
+          predicates:
+            - Path=/api/logistics/**
+          filters:
+            - StripPrefix=1
+      # 熔断配置
+      default-filters:
+        # 重试（幂等接口可开启）
+        # - name: Retry
+        #   args:
+        #     retries: 3
+        #     statuses: INTERNAL_SERVER_ERROR
+        # 降级响应
+        - name: Hystrix
+          args:
+            name: default
+            fallbackUri: forward:/fallback
+
+# Sentinel 限流配置（网关）
+sentinel:
+  transport:
+    dashboard: ${SENTINEL_DASHBOARD:127.0.0.1:8858}
+  eager: false
+
+# Sa-Token 配置（全局统一鉴权）
+sa-token:
+  token-name: Authorization
+  token-prefix: Bearer
+  timeout: 604800
+  is-concurrent: true
+  is-share: false
+  is-read-header: true

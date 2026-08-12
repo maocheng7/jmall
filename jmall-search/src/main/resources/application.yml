@@ -1,0 +1,29 @@
+# ========== 搜索服务 application 配置 ==========
+server:
+  port: 8104
+
+spring:
+  application:
+    name: jmall-search
+
+# RocketMQ 配置（消费商品上下架消息）
+rocketmq:
+  name-server: ${ROCKETMQ_ADDR:127.0.0.1:9876}
+  consumer:
+    group: jmall-search-consumer
+
+# Elasticsearch 配置
+elasticsearch:
+  uris: ${ES_ADDR:127.0.0.1:9200}
+  connect-timeout: 5000
+  socket-timeout: 30000
+
+springdoc:
+  info:
+    title: J-Mall 搜索服务 API
+    description: 商品搜索/筛选/排序接口
+    version: 1.0.0
+
+logging:
+  level:
+    com.jmall: info

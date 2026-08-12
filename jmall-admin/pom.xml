@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.jmall</groupId>
+        <artifactId>jmall</artifactId>
+        <version>1.0.0</version>
+    </parent>
+
+    <artifactId>jmall-admin</artifactId>
+    <name>jmall-admin</name>
+    <description>J-Mall 平台管理服务 - 用户管理/商家审核/首页内容/数据看板</description>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.jmall</groupId>
+            <artifactId>jmall-common-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.jmall</groupId>
+            <artifactId>jmall-common-mybatis</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.jmall</groupId>
+            <artifactId>jmall-common-redis</artifactId>
+        </dependency>
+        <!-- 用户服务API（平台管理用户） -->
+        <dependency>
+            <groupId>com.jmall</groupId>
+            <artifactId>jmall-api-user</artifactId>
+        </dependency>
+        <!-- 商家服务API（平台审核商家） -->
+        <dependency>
+            <groupId>com.jmall</groupId>
+            <artifactId>jmall-api-merchant</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-openfeign</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-loadbalancer</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-bootstrap</artifactId>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+</project>

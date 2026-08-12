@@ -1,0 +1,49 @@
+# ========== 商品服务 application 配置 ==========
+server:
+  port: 8103
+
+spring:
+  application:
+    name: jmall-product
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://${MYSQL_HOST:127.0.0.1}:${MYSQL_PORT:3306}/${MYSQL_DB:jmall_product}?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
+    username: ${MYSQL_USER:root}
+    password: ${MYSQL_PASSWORD:root}
+    type: com.alibaba.druid.pool.DruidDataSource
+    druid:
+      initial-size: 5
+      min-idle: 5
+      max-active: 20
+      max-wait: 60000
+      validation-query: SELECT 1
+      test-while-idle: true
+  data:
+    redis:
+      host: ${REDIS_HOST:127.0.0.1}
+      port: ${REDIS_PORT:6379}
+      password: ${REDIS_PASSWORD:}
+      database: 0
+      timeout: 5000ms
+
+# RocketMQ 配置
+rocketmq:
+  name-server: ${ROCKETMQ_ADDR:127.0.0.1:9876}
+  producer:
+    group: jmall-product-producer
+
+# Elasticsearch 配置
+elasticsearch:
+  uris: ${ES_ADDR:127.0.0.1:9200}
+  connect-timeout: 5000
+  socket-timeout: 30000
+
+springdoc:
+  info:
+    title: J-Mall 商品服务 API
+    description: 商品分类/商品/SKU/规格接口
+    version: 1.0.0
+
+logging:
+  level:
+    com.jmall: info

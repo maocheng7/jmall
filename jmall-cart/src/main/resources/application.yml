@@ -1,0 +1,24 @@
+# ========== 购物车服务 application 配置 ==========
+server:
+  port: 8105
+
+spring:
+  application:
+    name: jmall-cart
+  data:
+    redis:
+      host: ${REDIS_HOST:127.0.0.1}
+      port: ${REDIS_PORT:6379}
+      password: ${REDIS_PASSWORD:}
+      database: 0
+      timeout: 5000ms
+
+springdoc:
+  info:
+    title: J-Mall 购物车服务 API
+    description: 购物车增删改查/批量结算接口
+    version: 1.0.0
+
+logging:
+  level:
+    com.jmall: info

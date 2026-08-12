@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.jmall</groupId>
+        <artifactId>jmall</artifactId>
+        <version>1.0.0</version>
+    </parent>
+
+    <artifactId>jmall-api</artifactId>
+    <packaging>pom</packaging>
+    <name>jmall-api</name>
+    <description>J-Mall 共享API层 - 各服务的Feign接口+DTO，供调用方依赖，实现服务间解耦</description>
+
+    <modules>
+        <module>jmall-api-user</module>
+        <module>jmall-api-product</module>
+        <module>jmall-api-stock</module>
+        <module>jmall-api-order</module>
+        <module>jmall-api-coupon</module>
+        <module>jmall-api-merchant</module>
+        <module>jmall-api-pay</module>
+        <module>jmall-api-message</module>
+    </modules>
+</project>

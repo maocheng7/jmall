@@ -1,0 +1,41 @@
+# ========== 支付服务 application 配置 ==========
+server:
+  port: 8107
+
+spring:
+  application:
+    name: jmall-pay
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://${MYSQL_HOST:127.0.0.1}:${MYSQL_PORT:3306}/${MYSQL_DB:jmall_pay}?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
+    username: ${MYSQL_USER:root}
+    password: ${MYSQL_PASSWORD:root}
+    type: com.alibaba.druid.pool.DruidDataSource
+    druid:
+      initial-size: 5
+      min-idle: 5
+      max-active: 20
+      max-wait: 60000
+      validation-query: SELECT 1
+      test-while-idle: true
+
+# RocketMQ 配置
+rocketmq:
+  name-server: ${ROCKETMQ_ADDR:127.0.0.1:9876}
+  producer:
+    group: jmall-pay-producer
+
+# 支付配置（开发环境使用模拟支付，无需真实渠道账号）
+jmall:
+  pay:
+    mock-enabled: true
+
+springdoc:
+  info:
+    title: J-Mall 支付服务 API
+    description: 微信/支付宝/模拟支付接口
+    version: 1.0.0
+
+logging:
+  level:
+    com.jmall: info

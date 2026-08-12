@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.jmall</groupId>
+        <artifactId>jmall</artifactId>
+        <version>1.0.0</version>
+    </parent>
+
+    <artifactId>jmall-stock</artifactId>
+    <name>jmall-stock</name>
+    <description>J-Mall 库存服务 - 库存扣减/回滚/预占（Redis+MQ缓存最终一致）</description>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.jmall</groupId>
+            <artifactId>jmall-common-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.jmall</groupId>
+            <artifactId>jmall-common-mybatis</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.jmall</groupId>
+            <artifactId>jmall-common-redis</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.jmall</groupId>
+            <artifactId>jmall-common-mq</artifactId>
+        </dependency>
+        <!-- 库存共享 API（StockDeductDTO） -->
+        <dependency>
+            <groupId>com.jmall</groupId>
+            <artifactId>jmall-api-stock</artifactId>
+        </dependency>
+        <!-- 商品服务API（查询SKU） -->
+        <dependency>
+            <groupId>com.jmall</groupId>
+            <artifactId>jmall-api-product</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-openfeign</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-loadbalancer</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-bootstrap</artifactId>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+</project>

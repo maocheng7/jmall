@@ -1,0 +1,83 @@
+# Maven
+target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+dependency-reduced-pom.xml
+buildNumber.properties
+.mvn/timing.properties
+.mvn/wrapper/maven-wrapper.jar
+
+# IDE
+.idea/
+*.iml
+*.ipr
+*.iws
+.vscode/
+*.swp
+*.swo
+*~
+.project
+.classpath
+.settings/
+.factorypath
+bin/
+out/
+
+# OS
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Logs
+*.log
+logs/
+
+# Env / secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+credentials*
+secrets/
+
+# Local runtime
+*.pid
+*.seed
+*.pid.lock
+.nacos/
+data/
+tmp/
+temp/
+
+# Node / frontend (if added later)
+node_modules/
+dist/
+.npm/
+.pnpm-store/
+
+# UniApp / HBuilder
+unpackage/
+.hbuilderx/
+
+# Coverage / test
+coverage/
+*.exec
+.jacoco/
+
+# Package files
+*.jar
+*.war
+*.ear
+*.zip
+*.tar.gz
+*.rar
+!**/src/main/resources/**/*.jar
+
+# Misc
+*.bak
+*.orig
+.cache/
