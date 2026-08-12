@@ -29,7 +29,7 @@ CREATE TABLE `user` (
     UNIQUE KEY `uk_phone` (`phone`, `deleted`),
     KEY `idx_username` (`username`),
     KEY `idx_status` (`status`)
-) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '用户表';
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '用户表';
 
 -- ------------------------------------------------------------
 -- 2. 收货地址表
@@ -52,7 +52,7 @@ CREATE TABLE `user_address` (
     PRIMARY KEY (`id`),
     KEY `idx_user_id` (`user_id`),
     KEY `idx_user_default` (`user_id`, `is_default`)
-) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '收货地址表';
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '收货地址表';
 
 -- ------------------------------------------------------------
 -- 3. 用户收藏表（按 SPU 收藏）
@@ -67,7 +67,7 @@ CREATE TABLE `user_favorite` (
     PRIMARY KEY (`id`),
     UNIQUE KEY `uk_user_spu` (`user_id`, `spu_id`, `deleted`),
     KEY `idx_spu_id` (`spu_id`)
-) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '用户收藏表';
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '用户收藏表';
 
 -- ------------------------------------------------------------
 -- 4. 用户浏览足迹表
@@ -83,4 +83,4 @@ CREATE TABLE `user_footprint` (
     PRIMARY KEY (`id`),
     KEY `idx_user_time` (`user_id`, `create_time`),
     KEY `idx_spu_id` (`spu_id`)
-) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '用户浏览足迹表';
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '用户浏览足迹表';

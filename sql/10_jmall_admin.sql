@@ -27,7 +27,7 @@ CREATE TABLE `admin_user` (
     `deleted`       TINYINT      NOT NULL DEFAULT 0 COMMENT '逻辑删除：0=未删除，1=已删除',
     PRIMARY KEY (`id`),
     UNIQUE KEY `uk_username` (`username`, `deleted`)
-) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '管理员表';
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '管理员表';
 
 -- ------------------------------------------------------------
 -- 2. 角色表
@@ -44,7 +44,7 @@ CREATE TABLE `admin_role` (
     `deleted`       TINYINT      NOT NULL DEFAULT 0 COMMENT '逻辑删除：0=未删除，1=已删除',
     PRIMARY KEY (`id`),
     UNIQUE KEY `uk_role_code` (`role_code`, `deleted`)
-) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '角色表';
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '角色表';
 
 -- ------------------------------------------------------------
 -- 3. 权限表（菜单/按钮）
@@ -66,7 +66,7 @@ CREATE TABLE `admin_permission` (
     PRIMARY KEY (`id`),
     UNIQUE KEY `uk_perm_code` (`perm_code`, `deleted`),
     KEY `idx_parent_id` (`parent_id`)
-) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '权限表';
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '权限表';
 
 -- ------------------------------------------------------------
 -- 4. 管理员-角色关联表
@@ -82,7 +82,7 @@ CREATE TABLE `admin_user_role` (
     KEY `idx_role_id` (`role_id`),
     CONSTRAINT `fk_ur_user` FOREIGN KEY (`user_id`) REFERENCES `admin_user` (`id`),
     CONSTRAINT `fk_ur_role` FOREIGN KEY (`role_id`) REFERENCES `admin_role` (`id`)
-) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '管理员-角色关联表';
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '管理员-角色关联表';
 
 -- ------------------------------------------------------------
 -- 5. 角色-权限关联表
@@ -98,7 +98,7 @@ CREATE TABLE `admin_role_permission` (
     KEY `idx_permission_id` (`permission_id`),
     CONSTRAINT `fk_rp_role` FOREIGN KEY (`role_id`) REFERENCES `admin_role` (`id`),
     CONSTRAINT `fk_rp_perm` FOREIGN KEY (`permission_id`) REFERENCES `admin_permission` (`id`)
-) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '角色-权限关联表';
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '角色-权限关联表';
 
 -- ------------------------------------------------------------
 -- 6. 首页轮播图/推荐位表（首页内容管理）
@@ -119,7 +119,7 @@ CREATE TABLE `home_banner` (
     `deleted`       TINYINT      NOT NULL DEFAULT 0 COMMENT '逻辑删除：0=未删除，1=已删除',
     PRIMARY KEY (`id`),
     KEY `idx_position` (`position`, `status`, `sort`)
-) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '首页轮播/推荐位表';
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '首页轮播/推荐位表';
 
 -- ------------------------------------------------------------
 -- 7. 系统配置表（KV）
@@ -138,7 +138,7 @@ CREATE TABLE `sys_config` (
     PRIMARY KEY (`id`),
     UNIQUE KEY `uk_config_key` (`config_key`, `deleted`),
     KEY `idx_config_type` (`config_type`)
-) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '系统配置表';
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '系统配置表';
 
 -- ------------------------------------------------------------
 -- 8. 管理员操作日志表
@@ -162,7 +162,7 @@ CREATE TABLE `admin_operation_log` (
     KEY `idx_admin_id` (`admin_id`),
     KEY `idx_module` (`module`, `create_time`),
     KEY `idx_create_time` (`create_time`)
-) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '管理员操作日志表';
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '管理员操作日志表';
 
 -- ------------------------------------------------------------
 -- 9. 每日统计报表表（数据看板数据源）
@@ -183,4 +183,4 @@ CREATE TABLE `daily_report` (
     `update_time`    DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
     PRIMARY KEY (`id`),
     UNIQUE KEY `uk_report_date` (`report_date`)
-) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '每日统计报表表';
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '每日统计报表表';

@@ -28,7 +28,7 @@ CREATE TABLE `stock` (
     UNIQUE KEY `uk_sku_id` (`sku_id`, `deleted`),
     KEY `idx_merchant_id` (`merchant_id`),
     KEY `idx_warn` (`status`, `available_quantity`)
-) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '库存表';
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '库存表';
 
 -- ------------------------------------------------------------
 -- 2. 库存流水表（扣减/回滚明细，MQ 消费后落库）
@@ -49,4 +49,4 @@ CREATE TABLE `stock_record` (
     KEY `idx_order_no` (`order_no`),
     KEY `idx_sku_id` (`sku_id`),
     KEY `idx_create_time` (`create_time`)
-) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '库存流水表';
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '库存流水表';

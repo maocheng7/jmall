@@ -34,7 +34,7 @@ CREATE TABLE `pay_order` (
     KEY `idx_user_id` (`user_id`),
     KEY `idx_status` (`status`),
     KEY `idx_trade_no` (`trade_no`)
-) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '支付单表';
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '支付单表';
 
 -- ------------------------------------------------------------
 -- 2. 退款流水表（记录每次真实退款）
@@ -59,4 +59,4 @@ CREATE TABLE `refund_record` (
     KEY `idx_pay_no` (`pay_no`),
     KEY `idx_order_no` (`order_no`),
     KEY `idx_status` (`status`)
-) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '退款流水表';
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '退款流水表';

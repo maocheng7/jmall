@@ -25,7 +25,7 @@ CREATE TABLE `merchant` (
     PRIMARY KEY (`id`),
     UNIQUE KEY `uk_user_id` (`user_id`, `deleted`),
     KEY `idx_status` (`status`)
-) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '商家表';
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '商家表';
 
 -- ------------------------------------------------------------
 -- 2. 入驻申请表（一次申请一条记录，支持多次申请）
@@ -51,7 +51,7 @@ CREATE TABLE `merchant_apply` (
     PRIMARY KEY (`id`),
     KEY `idx_user_id` (`user_id`, `status`),
     KEY `idx_status` (`status`, `apply_time`)
-) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '入驻申请表';
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '入驻申请表';
 
 -- ------------------------------------------------------------
 -- 3. 店铺表（一商家一店）
@@ -78,7 +78,7 @@ CREATE TABLE `shop` (
     UNIQUE KEY `uk_merchant_id` (`merchant_id`, `deleted`),
     KEY `idx_status` (`status`),
     CONSTRAINT `fk_shop_merchant` FOREIGN KEY (`merchant_id`) REFERENCES `merchant` (`id`)
-) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '店铺表';
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '店铺表';
 
 -- ------------------------------------------------------------
 -- 4. 客服会话表（用户与店铺客服）
@@ -100,7 +100,7 @@ CREATE TABLE `chat_session` (
     UNIQUE KEY `uk_session_no` (`session_no`, `deleted`),
     KEY `idx_user_id` (`user_id`),
     KEY `idx_merchant_id` (`merchant_id`)
-) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '客服会话表';
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '客服会话表';
 
 -- ------------------------------------------------------------
 -- 5. 客服消息表
@@ -119,4 +119,4 @@ CREATE TABLE `chat_message` (
     KEY `idx_session_id` (`session_id`, `create_time`),
     KEY `idx_sender` (`sender_type`, `sender_id`, `is_read`),
     CONSTRAINT `fk_msg_session` FOREIGN KEY (`session_id`) REFERENCES `chat_session` (`id`)
-) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '客服消息表';
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '客服消息表';

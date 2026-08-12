@@ -33,4 +33,4 @@ CREATE TABLE `auth_account` (
     KEY `idx_user_id` (`user_id`),
     KEY `idx_wx_openid` (`wx_openid`),
     KEY `idx_status` (`status`)
-) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '认证账号表';
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '认证账号表';

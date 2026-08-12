@@ -26,7 +26,7 @@ CREATE TABLE `category` (
     PRIMARY KEY (`id`),
     KEY `idx_parent_id` (`parent_id`, `sort`),
     KEY `idx_level` (`level`)
-) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '商品分类表';
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '商品分类表';
 
 -- ------------------------------------------------------------
 -- 2. 品牌表
@@ -46,7 +46,7 @@ CREATE TABLE `brand` (
     PRIMARY KEY (`id`),
     UNIQUE KEY `uk_name` (`name`, `deleted`),
     KEY `idx_letter` (`letter`)
-) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '品牌表';
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '品牌表';
 
 -- ------------------------------------------------------------
 -- 3. 商品 SPU 表（商品主体）
@@ -78,7 +78,7 @@ CREATE TABLE `product_spu` (
     KEY `idx_brand_id` (`brand_id`),
     KEY `idx_status` (`status`, `audit_status`),
     KEY `idx_name` (`name`) USING BTREE
-) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '商品SPU表';
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '商品SPU表';
 
 -- ------------------------------------------------------------
 -- 4. 商品 SKU 表（规格售卖单元）
@@ -104,7 +104,7 @@ CREATE TABLE `product_sku` (
     KEY `idx_spu_id` (`spu_id`),
     KEY `idx_status` (`status`),
     CONSTRAINT `fk_sku_spu` FOREIGN KEY (`spu_id`) REFERENCES `product_spu` (`id`)
-) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '商品SKU表';
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '商品SKU表';
 
 -- ------------------------------------------------------------
 -- 5. 规格名表（如：颜色、内存、版本）
@@ -119,7 +119,7 @@ CREATE TABLE `spec` (
     `deleted`       TINYINT      NOT NULL DEFAULT 0 COMMENT '逻辑删除：0=未删除，1=已删除',
     PRIMARY KEY (`id`),
     UNIQUE KEY `uk_name` (`name`, `deleted`)
-) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '规格名表';
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '规格名表';
 
 -- ------------------------------------------------------------
 -- 6. 规格值表（如：红色、128GB）
@@ -136,7 +136,7 @@ CREATE TABLE `spec_value` (
     PRIMARY KEY (`id`),
     KEY `idx_spec_id` (`spec_id`),
     CONSTRAINT `fk_spec_value_spec` FOREIGN KEY (`spec_id`) REFERENCES `spec` (`id`)
-) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '规格值表';
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '规格值表';
 
 -- ------------------------------------------------------------
 -- 7. 商品评价表（用户购买后评价）
@@ -166,7 +166,7 @@ CREATE TABLE `product_review` (
     KEY `idx_user_id` (`user_id`),
     CONSTRAINT `fk_review_spu` FOREIGN KEY (`spu_id`) REFERENCES `product_spu` (`id`),
     CONSTRAINT `fk_review_sku` FOREIGN KEY (`sku_id`) REFERENCES `product_sku` (`id`)
-) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '商品评价表';
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '商品评价表';
 
 -- ------------------------------------------------------------
 -- 8. 商品问答表
@@ -188,4 +188,4 @@ CREATE TABLE `product_question` (
     KEY `idx_spu_id` (`spu_id`, `status`),
     KEY `idx_user_id` (`user_id`),
     CONSTRAINT `fk_question_spu` FOREIGN KEY (`spu_id`) REFERENCES `product_spu` (`id`)
-) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '商品问答表';
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '商品问答表';

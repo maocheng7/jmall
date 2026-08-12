@@ -37,7 +37,7 @@ CREATE TABLE `coupon` (
     KEY `idx_merchant_id` (`merchant_id`),
     KEY `idx_status` (`status`, `start_time`, `end_time`),
     KEY `idx_type` (`type`)
-) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '优惠券模板表';
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '优惠券模板表';
 
 -- ------------------------------------------------------------
 -- 2. 用户优惠券表（领券/核销）
@@ -65,7 +65,7 @@ CREATE TABLE `user_coupon` (
     KEY `idx_coupon_id` (`coupon_id`),
     KEY `idx_expire_time` (`expire_time`),
     CONSTRAINT `fk_user_coupon_coupon` FOREIGN KEY (`coupon_id`) REFERENCES `coupon` (`id`)
-) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '用户优惠券表';
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '用户优惠券表';
 
 -- ------------------------------------------------------------
 -- 3. 营销活动表（满减/满折，跨店铺优惠）
@@ -90,7 +90,7 @@ CREATE TABLE `promotion` (
     PRIMARY KEY (`id`),
     KEY `idx_merchant_id` (`merchant_id`),
     KEY `idx_status` (`status`, `start_time`, `end_time`)
-) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '营销活动表';
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '营销活动表';
 
 -- ------------------------------------------------------------
 -- 4. 秒杀活动表
@@ -108,7 +108,7 @@ CREATE TABLE `seckill_activity` (
     `deleted`       TINYINT      NOT NULL DEFAULT 0 COMMENT '逻辑删除：0=未删除，1=已删除',
     PRIMARY KEY (`id`),
     KEY `idx_status` (`status`, `start_time`, `end_time`)
-) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '秒杀活动表';
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '秒杀活动表';
 
 -- ------------------------------------------------------------
 -- 5. 秒杀商品表（活动与 SKU 关联）
@@ -131,4 +131,4 @@ CREATE TABLE `seckill_sku` (
     KEY `idx_activity_id` (`activity_id`),
     KEY `idx_sku_id` (`sku_id`),
     CONSTRAINT `fk_seckill_sku_activity` FOREIGN KEY (`activity_id`) REFERENCES `seckill_activity` (`id`)
-) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '秒杀商品表';
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '秒杀商品表';

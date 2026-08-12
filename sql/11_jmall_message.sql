@@ -29,7 +29,7 @@ CREATE TABLE `message_record` (
     KEY `idx_user_id` (`user_id`),
     KEY `idx_status` (`status`),
     KEY `idx_create_time` (`create_time`)
-) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '消息发送记录表';
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '消息发送记录表';
 
 -- ------------------------------------------------------------
 -- 2. 站内信表（用户中心的消息列表）
@@ -49,4 +49,4 @@ CREATE TABLE `site_message` (
     PRIMARY KEY (`id`),
     KEY `idx_user_read` (`user_id`, `is_read`, `create_time`),
     KEY `idx_msg_type` (`msg_type`)
-) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '站内信表';
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '站内信表';

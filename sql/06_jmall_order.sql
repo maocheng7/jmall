@@ -42,7 +42,7 @@ CREATE TABLE `orders` (
     KEY `idx_merchant_id` (`merchant_id`, `status`),
     KEY `idx_create_time` (`create_time`),
     KEY `idx_pay_time` (`pay_time`)
-) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '订单主表';
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '订单主表';
 
 -- ------------------------------------------------------------
 -- 2. 订单明细表（一个订单多条商品）
@@ -71,7 +71,7 @@ CREATE TABLE `order_item` (
     KEY `idx_sku_id` (`sku_id`),
     KEY `idx_user_id` (`user_id`),
     CONSTRAINT `fk_item_order` FOREIGN KEY (`order_id`) REFERENCES `orders` (`id`)
-) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '订单明细表';
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '订单明细表';
 
 -- ------------------------------------------------------------
 -- 3. 订单状态流转记录表（审计用）
@@ -87,7 +87,7 @@ CREATE TABLE `order_status_record` (
     `create_time`   DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '记录时间',
     PRIMARY KEY (`id`),
     KEY `idx_order_no` (`order_no`, `create_time`)
-) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '订单状态流转记录表';
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '订单状态流转记录表';
 
 -- ------------------------------------------------------------
 -- 4. 退款申请表
@@ -116,4 +116,4 @@ CREATE TABLE `order_refund` (
     KEY `idx_user_id` (`user_id`),
     KEY `idx_status` (`status`),
     CONSTRAINT `fk_refund_item` FOREIGN KEY (`order_item_id`) REFERENCES `order_item` (`id`)
-) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '退款申请表';
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '退款申请表';

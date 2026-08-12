@@ -31,7 +31,7 @@ CREATE TABLE `delivery` (
     UNIQUE KEY `uk_order_no` (`order_no`, `deleted`),
     KEY `idx_logistics_no` (`logistics_no`),
     KEY `idx_status` (`status`)
-) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '物流运单表';
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '物流运单表';
 
 -- ------------------------------------------------------------
 -- 2. 物流轨迹表（一条状态变化一行，按时间倒序展示）
@@ -51,4 +51,4 @@ CREATE TABLE `logistics_track` (
     KEY `idx_logistics_no` (`logistics_no`),
     KEY `idx_track_time` (`track_time`),
     CONSTRAINT `fk_track_delivery` FOREIGN KEY (`delivery_id`) REFERENCES `delivery` (`id`)
-) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '物流轨迹表';
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '物流轨迹表';
