@@ -1,0 +1,170 @@
+# ============================================================
+# J-Mall 一体化开发环境（Docker Compose）
+# 用法：
+#   cp .env.example .env  # 按需修改
+#   docker compose --profile core up -d          # MySQL + Redis + Nacos（最小联调）
+#   docker compose --profile full up -d          # 全量（含 RocketMQ / ES / MinIO）
+#   docker compose down -v                       # 停止并清数据
+# 各服务通过 bootstrap.yml 读取 NACOS_ADDR 等环境变量；
+# application.yml 已内置 MYSQL_HOST / REDIS_HOST 默认值，容器内改用 .env 即可。
+# ============================================================
+name: jmall
+
+services:
+  # ---------------- 基础中间件（core profile） ----------------
+  mysql:
+    image: mysql:8.0
+    container_name: jmall-mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_PASSWORD:-root}
+      TZ: Asia/Shanghai
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_0900_ai_ci
+      - --default-authentication-plugin=mysql_native_password
+      - --max-connections=200
+    ports:
+      - "${MYSQL_PORT:-3306}:3306"
+    volumes:
+      - jmall-mysql-data:/var/lib/mysql
+      - ./sql:/docker-entrypoint-initdb.d:ro   # 首次启动自动导入 00~11
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "-p${MYSQL_PASSWORD:-root}"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    networks: [jmall-net]
+
+  redis:
+    image: redis:7-alpine
+    container_name: jmall-redis
+    restart: unless-stopped
+    command: >
+      sh -c 'redis-server
+      --appendonly yes
+      --maxmemory 256mb
+      --maxmemory-policy allkeys-lru
+      ${REDIS_PASSWORD:+--requirepass $$REDIS_PASSWORD}'
+    environment:
+      REDIS_PASSWORD: ${REDIS_PASSWORD:-}
+    ports:
+      - "${REDIS_PORT:-6379}:6379"
+    volumes:
+      - jmall-redis-data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+    networks: [jmall-net]
+
+  nacos:
+    image: nacos/nacos-server:v2.3.2
+    container_name: jmall-nacos
+    restart: unless-stopped
+    environment:
+      MODE: standalone
+      PREFER_HOST_MODE: hostname
+      NACOS_AUTH_ENABLE: "true"
+      NACOS_AUTH_TOKEN: ${NACOS_AUTH_TOKEN:-SecretKey012345678901234567890123456789012345678901234567890123456789}
+      NACOS_AUTH_IDENTITY_KEY: ${NACOS_AUTH_IDENTITY_KEY:-jmall}
+      NACOS_AUTH_IDENTITY_VALUE: ${NACOS_AUTH_IDENTITY_VALUE:-jmall}
+    ports:
+      - "${NACOS_PORT:-8848}:8848"
+      - "9848:9848"   # gRPC
+      - "9849:9849"   # gRPC raft
+    volumes:
+      - jmall-nacos-data:/home/nacos/data
+      - jmall-nacos-logs:/home/nacos/logs
+    healthcheck:
+      test: ["CMD", "curl", "-sf", "http://127.0.0.1:8848/nacos/v1/console/health/readiness"]
+      interval: 15s
+      timeout: 5s
+      retries: 10
+    networks: [jmall-net]
+
+  # ---------------- 可选中间件（full profile） ----------------
+  rocketmq-namesrv:
+    image: apache/rocketmq:5.3.1
+    container_name: jmall-rocketmq-namesrv
+    restart: unless-stopped
+    profiles: [full]
+    command: sh mqnamesrv
+    environment:
+      JAVA_OPT_EXT: "-Xms256m -Xmx256m -Xmn128m"
+    ports:
+      - "9876:9876"
+    volumes:
+      - jmall-rocketmq-namesrv-logs:/home/rocketmq/logs
+    networks: [jmall-net]
+
+  rocketmq-broker:
+    image: apache/rocketmq:5.3.1
+    container_name: jmall-rocketmq-broker
+    restart: unless-stopped
+    profiles: [full]
+    depends_on: [rocketmq-namesrv]
+    command: sh mqbroker -n rocketmq-namesrv:9876 --enable-proxy
+    environment:
+      JAVA_OPT_EXT: "-Xms512m -Xmx512m -Xmn256m"
+      NAMESRV_ADDR: "rocketmq-namesrv:9876"
+    ports:
+      - "10909:10909"
+      - "10911:10911"
+      - "8081:8081"
+    volumes:
+      - jmall-rocketmq-broker-store:/home/rocketmq/store
+      - jmall-rocketmq-broker-logs:/home/rocketmq/logs
+    networks: [jmall-net]
+
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.14.0
+    container_name: jmall-es
+    restart: unless-stopped
+    profiles: [full]
+    environment:
+      discovery.type: single-node
+      ES_JAVA_OPTS: "-Xms512m -Xmx512m"
+      xpack.security.enabled: "false"
+      bootstrap.memory_lock: "true"
+      ELASTIC_PASSWORD: ${ES_PASSWORD:-}
+    ulimits:
+      memlock: { soft: -1, hard: -1 }
+    ports:
+      - "${ES_PORT:-9200}:9200"
+      - "9300:9300"
+    volumes:
+      - jmall-es-data:/usr/share/elasticsearch/data
+    networks: [jmall-net]
+
+  minio:
+    image: minio/minio:latest
+    container_name: jmall-minio
+    restart: unless-stopped
+    profiles: [full]
+    command: server /data --console-address ":9001"
+    environment:
+      MINIO_ROOT_USER: ${MINIO_ACCESS_KEY:-jmall}
+      MINIO_ROOT_PASSWORD: ${MINIO_SECRET_KEY:-jmall12345}
+    ports:
+      - "${MINIO_PORT:-9000}:9000"
+      - "9001:9001"
+    volumes:
+      - jmall-minio-data:/data
+    networks: [jmall-net]
+
+networks:
+  jmall-net:
+    driver: bridge
+
+volumes:
+  jmall-mysql-data:
+  jmall-redis-data:
+  jmall-nacos-data:
+  jmall-nacos-logs:
+  jmall-rocketmq-namesrv-logs:
+  jmall-rocketmq-broker-store:
+  jmall-rocketmq-broker-logs:
+  jmall-es-data:
+  jmall-minio-data:
