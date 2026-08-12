@@ -28,6 +28,10 @@ import java.util.List;
  * 在网关层统一校验 Sa-Token 登录状态，并将用户信息通过请求头传递给下游服务。
  * 白名单路径（注册、登录、公开接口）直接放行。
  * </p>
+ * <p>
+ * 注意：Sa-Token 的 StpUtil 是同步阻塞 API，在 WebFlux 响应式环境中
+ * 必须用 {@link Mono#fromCallable} 包装，避免阻塞响应式线程。
+ * </p>
  *
  * @author jmall
  */
@@ -39,18 +43,28 @@ public class AuthGlobalFilter implements GlobalFilter, Ordered {
 
     /**
      * 白名单路径（无需鉴权）
+     * <p>
+     * 路径匹配网关入口的完整路径（StripPrefix 之前），如：
+     * - /auth/** → 认证服务（StripPrefix=0，路径不变）
+     * - /api/product/list → 商品服务（StripPrefix=1 后变为 /product/list）
+     * 白名单使用网关入口路径进行匹配。
+     * </p>
      */
     private static final List<String> WHITE_LIST = List.of(
+            // 认证服务（StripPrefix=0，路径不变）
             "/auth/register",
             "/auth/login",
             "/auth/login/sms",
             "/auth/login/wechat",
             "/auth/code/send",
             "/auth/check",
-            "/product/list",
-            "/product/detail/**",
-            "/product/category/**",
-            "/search/**",
+            // 商品公开接口（网关路径 /api/product/**，StripPrefix=1 后 /product/**）
+            "/api/product/list",
+            "/api/product/detail/**",
+            "/api/product/category/**",
+            // 搜索公开接口
+            "/api/search/**",
+            // 监控/文档
             "/actuator/**",
             "/v3/api-docs/**",
             "/swagger-ui/**",
@@ -62,42 +76,43 @@ public class AuthGlobalFilter implements GlobalFilter, Ordered {
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
         ServerHttpRequest request = exchange.getRequest();
         String path = request.getURI().getPath();
-        String method = request.getMethod().name();
+        String method = request.getMethod() != null ? request.getMethod().name() : "UNKNOWN";
 
         // 白名单放行
         if (isWhiteListed(path)) {
             return chain.filter(exchange);
         }
 
-        // Sa-Token 校验登录状态
-        try {
-            if (!StpUtil.isLogin()) {
-                return unauthorizedResponse(exchange, ResultCode.UNAUTHORIZED);
-            }
-        } catch (Exception e) {
-            log.error("鉴权异常: path={}, error={}", path, e.getMessage());
-            return unauthorizedResponse(exchange, ResultCode.UNAUTHORIZED);
-        }
+        // Sa-Token 校验登录状态 —— 用 Mono.fromCallable 包装同步调用，避免阻塞响应式线程
+        return Mono.fromCallable(StpUtil::isLogin)
+                .flatMap(isLogin -> {
+                    if (!isLogin) {
+                        return unauthorizedResponse(exchange, ResultCode.UNAUTHORIZED);
+                    }
+                    // 获取登录用户信息并写入请求头传递给下游服务
+                    return Mono.fromCallable(() -> {
+                        Long userId = StpUtil.getLoginIdAsLong();
+                        String username = StpUtil.getLoginId().toString();
+                        String role = (String) StpUtil.getTokenSession().get("role");
+                        Long merchantId = (Long) StpUtil.getTokenSession().get("merchantId");
 
-        // 获取登录用户信息，通过请求头传递给下游服务
-        Long userId = StpUtil.getLoginIdAsLong();
-        String username = (String) StpUtil.getLoginId().toString();
+                        ServerHttpRequest mutatedRequest = request.mutate()
+                                .header(CommonConstants.HEADER_USER_ID, String.valueOf(userId))
+                                .header(CommonConstants.HEADER_USERNAME, username != null ? username : "")
+                                .header(CommonConstants.HEADER_USER_ROLE, role != null ? role : "user")
+                                .header(CommonConstants.HEADER_MERCHANT_ID, merchantId != null ? String.valueOf(merchantId) : "")
+                                .header(CommonConstants.HEADER_SOURCE, CommonConstants.SOURCE_INTERNAL)
+                                .build();
 
-        // 从 Token Session 获取角色信息
-        String role = (String) StpUtil.getTokenSession().get("role");
-        Long merchantId = (Long) StpUtil.getTokenSession().get("merchantId");
-
-        // 将用户信息写入请求头，传递给下游服务
-        ServerHttpRequest mutatedRequest = request.mutate()
-                .header(CommonConstants.HEADER_USER_ID, String.valueOf(userId))
-                .header(CommonConstants.HEADER_USERNAME, username != null ? username : "")
-                .header(CommonConstants.HEADER_USER_ROLE, role != null ? role : "user")
-                .header(CommonConstants.HEADER_MERCHANT_ID, merchantId != null ? String.valueOf(merchantId) : "")
-                .header(CommonConstants.HEADER_SOURCE, CommonConstants.SOURCE_INTERNAL)
-                .build();
-
-        log.debug("鉴权通过: path={}, method={}, userId={}", path, method, userId);
-        return chain.filter(exchange.mutate().request(mutatedRequest).build());
+                        log.debug("鉴权通过: path={}, method={}, userId={}", path, method, userId);
+                        return mutatedRequest;
+                    }).flatMap(mutatedRequest ->
+                            chain.filter(exchange.mutate().request(mutatedRequest).build()));
+                })
+                .onErrorResume(e -> {
+                    log.error("鉴权异常: path={}, error={}", path, e.getMessage());
+                    return unauthorizedResponse(exchange, ResultCode.UNAUTHORIZED);
+                });
     }
 
     /**

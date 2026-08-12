@@ -13,6 +13,8 @@ spring:
         password: ${NACOS_PASSWORD:nacos}
       # Nacos 配置中心
       config:
+        import-check:
+          enabled: false
         server-addr: ${NACOS_ADDR:127.0.0.1:8848}
         namespace: ${NACOS_NAMESPACE:}
         group: DEFAULT_GROUP

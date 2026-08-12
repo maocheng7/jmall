@@ -101,18 +101,12 @@ spring:
             - Path=/api/logistics/**
           filters:
             - StripPrefix=1
-      # 熔断配置
-      default-filters:
-        # 重试（幂等接口可开启）
-        # - name: Retry
-        #   args:
-        #     retries: 3
-        #     statuses: INTERNAL_SERVER_ERROR
-        # 降级响应
-        - name: Hystrix
-          args:
-            name: default
-            fallbackUri: forward:/fallback
+      # 熔断/降级配置（Spring Cloud 2023.x 已移除 Hystrix，改用 Resilience4j，暂不启用）
+      # default-filters:
+      #   - name: CircuitBreaker
+      #     args:
+      #       name: default
+      #       fallbackUri: forward:/fallback
 
 # Sentinel 限流配置（网关）
 sentinel:
