@@ -3,6 +3,7 @@ package com.jmall.user;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+import org.springframework.context.annotation.ComponentScan;
 
 /**
  * J-Mall 用户服务启动类
@@ -13,6 +14,7 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
  * @author jmall
  */
 @SpringBootApplication
+@ComponentScan(basePackages = {"com.jmall.user", "com.jmall.common"})
 @EnableDiscoveryClient
 public class JmallUserApplication {
 

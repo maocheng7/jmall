@@ -9,7 +9,7 @@ spring:
     redis:
       host: ${REDIS_HOST:127.0.0.1}
       port: ${REDIS_PORT:6379}
-      password: ${REDIS_PASSWORD:}
+      # password: ${REDIS_PASSWORD:}  # Uncomment if Redis requires auth
       database: 0
       timeout: 5000ms
 

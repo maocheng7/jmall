@@ -19,20 +19,22 @@
             <groupId>com.jmall</groupId>
             <artifactId>jmall-common-core</artifactId>
         </dependency>
-        <!-- Sa-Token Reactor（网关响应式） -->
+        <!-- Sa-Token Reactor（网关响应式） — optional，仅网关需要 -->
         <dependency>
             <groupId>cn.dev33</groupId>
             <artifactId>sa-token-reactor-spring-boot3-starter</artifactId>
+            <optional>true</optional>
         </dependency>
         <!-- Sa-Token Redis（会话存储） -->
         <dependency>
             <groupId>cn.dev33</groupId>
             <artifactId>sa-token-redis-jackson</artifactId>
         </dependency>
-        <!-- Spring Cloud Gateway（响应式Web） -->
+        <!-- Spring Cloud Gateway（响应式Web） — optional，仅网关需要 -->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-gateway</artifactId>
+            <optional>true</optional>
         </dependency>
         <!-- Spring Data Redis（Sa-Token Redis依赖） -->
         <dependency>
